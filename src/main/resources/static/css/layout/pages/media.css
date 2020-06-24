@@ -1,0 +1,131 @@
+/**********
+* Home page rules
+**********/
+
+.media-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.media-list .item {
+    flex-basis: 24%;
+    margin: 4px;
+    background: #1f1f1f;
+    padding-bottom: 25px;
+}
+
+.media-list .item .video {
+    width: 100%;
+}
+
+.media-list .item .video iframe {
+    width: 100%;
+}
+
+.media-list .item .title {
+    color: #fff;
+    font-weight: bold;
+    padding: 8px 20px;
+    text-align: center;
+}
+
+.media-list .item .title:after {
+    content: "";
+    display: block;
+    width: 20px;
+    border-bottom: 1px solid var(--color-red);
+    margin: 10px auto 0 auto;
+}
+
+.media-list .item:hover {
+    text-decoration: none;
+}
+
+.media-list .item .summary {
+    color: #fff;
+    padding: 8px 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .media-list .item {
+        flex-basis: 100%;
+    }
+}
+
+.all {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.informations {
+    display: flex;
+    flex-direction: block;
+}
+
+.case {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.detailTitle {
+    padding-bottom: 20px;
+    padding-left: 10px;
+    border-bottom: 3px #f72035 solid;
+    border-bottom-right-radius: 10%;
+}
+
+.blackBackground {
+    background-color: rgba(0, 0, 0, 0.05);
+    opacity: 80%;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.blackBackground:hover {
+    opacity: 100%;
+}
+
+.redBackground {
+    background-color: #f72035;
+    opacity: 80%;
+    border-radius: 0px 5px 5px 5px;
+    padding: 5px;
+    color: white;
+}
+
+.redBackground:hover {
+    opacity: 100%;
+}
+
+.redBackgroundWithoutBotomBoder {
+    background-color: #f72035;
+    opacity: 80%;
+    border-radius: 5px 5px 0px 0px;
+    padding: 5px;
+    color: white;
+}
+
+.redBackgroundWithoutBotomBoder:hover {
+    opacity: 100%;
+}
+
+.videoYt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 400px;
+}
+
+.iframe-x2 {
+    width: 100%;
+    height: 100%;
+}

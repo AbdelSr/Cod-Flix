@@ -1,0 +1,32 @@
+#parse("dashboard.html")
+#@mainLayout()
+
+<div class="all">
+
+    <div class="titleDiv case fullWidth">
+        <h1 class="detailTitle">
+            A propos
+        </h1>
+    </div>
+    <div class="videoYt case">
+        <iframe class="iframe-x2" allowfullscreen="" frameborder="0"
+                src="$media.getTrailerUrl()">
+        </iframe>
+    </div>
+    <h2 class="movieTitle case">
+        $media.getTitle()
+    </h2>
+    <div class="informations fullWidth">
+        <div class="redBackgroundWithoutBotomBoder case">$media.getReleaseYear() &nbsp | &nbsp $media.getType() &nbsp |
+            &nbsp
+            $media.getGenre()
+        </div>
+    </div>
+    <div class="fullWidth">
+        <h2 class="case redBackground">Synopsis : </h2>
+    </div>
+    <div class="case fullWidth blackBackground">
+        $media.getSummary()
+    </div>
+</div>
+#end
