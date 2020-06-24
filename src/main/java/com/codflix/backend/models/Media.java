@@ -1,10 +1,9 @@
 package com.codflix.backend.models;
 
+import com.codflix.backend.features.episode.EpisodeDao;
 import com.codflix.backend.features.genre.GenreDao;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 public class Media {
     private int id;
@@ -15,7 +14,9 @@ public class Media {
     private Date releaseDate;
     private String summary;
     private String trailerUrl;
+
     private GenreDao gd = new GenreDao();
+    private EpisodeDao ed = new EpisodeDao();
 
     public Media(int id, int genreId, String title, String type, String status, Date releaseDate, String summary, String trailerUrl) {
         this.id = id;
@@ -122,6 +123,30 @@ public class Media {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
+    }
+
+    public LinkedHashMap<Integer, ArrayList<Episode>> getEpisodes() {
+        LinkedHashMap<Integer, ArrayList<Episode>> lhm = new LinkedHashMap<Integer, ArrayList<Episode>>();
+
+        ArrayList<Episode> episodes = this.ed.getEpisodeByMediaId(this.id);
+
+        for (Episode episode : episodes) {
+            if(lhm.get(episode.getSeason()) == null) {
+                ArrayList<Episode> newListeEpisodes = new ArrayList<Episode>();
+                newListeEpisodes.add(episode);
+                lhm.put(episode.getSeason(), newListeEpisodes);
+
+            } else {
+                ArrayList<Episode> listeEpisodes = lhm.get(episode.getSeason());
+                listeEpisodes.add(episode);
+            }
+        }
+
+        for (Map.Entry<Integer, ArrayList<Episode>> entry : lhm.entrySet()) {
+            System.out.println("saison : " + entry.getKey() + " : " + entry.getValue());
+        }
+
+        return lhm;
     }
 }
 
