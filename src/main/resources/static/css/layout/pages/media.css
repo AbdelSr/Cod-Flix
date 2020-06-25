@@ -28,6 +28,7 @@
     font-weight: bold;
     padding: 8px 20px;
     text-align: center;
+    height: 80px;
 }
 
 .media-list .item .title:after {
@@ -217,3 +218,136 @@
 .color-white {
     color: white;
 }
+
+.releasedDate {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.timeMinute {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.type {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.timeAndType {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
+    opacity: 70%;
+}
+
+
+/* Menus ----------------------------------------------------- */
+
+.filtreBar {
+    background-color: #ce192b;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.filtreBar nav {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ce192b;
+    position: sticky;
+    top: 0px;
+}
+
+.filtreBar nav ul {
+    list-style-type: none;
+}
+
+.filtreBar nav ul li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    position: relative;
+}
+
+.filtreBar nav ul::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.filtreBar nav a {
+    background-color: #f72035;
+    display: block;
+    text-decoration: none;
+    color: white;
+    border-bottom: 2px solid transparent;
+    padding: 10px 0px;
+}
+
+.filtreBar nav a:hover {
+    color: white;
+    border-bottom: 2px solid #ce192b;
+}
+
+.filtreBar .sous {
+    display: none;
+    box-shadow: 0px 1px 2px rgb(121, 4, 4);
+    background-color: #ce192b;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+.filtreBar nav>ul li:hover .sous {
+    display: block;
+}
+
+.filtreBar .sous li {
+    float: none;
+    width: 100%;
+    text-align: left;
+}
+
+.filtreBar .sous a {
+    padding: 10px;
+    border-bottom: none;
+}
+
+.filtreBar .sous a:hover {
+    border-bottom: none;
+    background-color: RGBa(200, 200, 200, 0.1);
+}
+
+.filtreBar .deroulant>a::after {
+    content: " ▼";
+    font-size: 12px;
+}
+
+.genreButton {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: white;
+    text-align: center;
+    width: 100%;
+}
+
+.genreButton:hover {
+    background-color: #f72035;
+}
+
+
+/* --------------------------------------------------- */

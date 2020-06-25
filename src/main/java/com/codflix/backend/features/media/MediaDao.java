@@ -12,6 +12,63 @@ import java.util.List;
 public class MediaDao {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+    public List<Media> getAllMediasByGenre(int genreId) {
+        List<Media> medias = new ArrayList<>();
+
+        Connection connection = Database.get().getConnection();
+        System.out.println("Ma requete : SELECT * FROM media WHERE genre_id=" + genreId + " ORDER BY release_date DESC");
+
+        try {
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM media WHERE genre_id=" + genreId + " ORDER BY release_date DESC");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                medias.add(mapToMedia(rs));
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return medias;
+    }
+
+    public List<Media> getAllMediasByTypeAndGenre(String type, int genreId) {
+        List<Media> medias = new ArrayList<>();
+
+        Connection connection = Database.get().getConnection();
+        System.out.println("Ma requete : SELECT * FROM media WHERE type='" + type + "' AND genre_id='" + genreId + "' ORDER BY release_date DESC");
+
+        try {
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM media WHERE type='" + type + "' AND genre_id='" + genreId + "' ORDER BY release_date DESC");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                medias.add(mapToMedia(rs));
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return medias;
+    }
+
+    public List<Media> getAllMediasByType(String type) {
+        List<Media> medias = new ArrayList<>();
+
+        Connection connection = Database.get().getConnection();
+        System.out.println("Ma requete : SELECT * FROM media WHERE type='" + type + "' ORDER BY release_date DESC");
+
+        try {
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM media WHERE type='" + type + "' ORDER BY release_date DESC");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                medias.add(mapToMedia(rs));
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return medias;
+    }
+
     public List<Media> getAllMedias() {
         List<Media> medias = new ArrayList<>();
 
@@ -29,15 +86,13 @@ public class MediaDao {
         return medias;
     }
 
+    // function has been changed to return all media that are approximately similar to the written title
     public List<Media> filterMedias(String title) {
         List<Media> medias = new ArrayList<>();
 
-        System.out.println("Recherche by title : " + title);
-        
         Connection connection = Database.get().getConnection();
         try {
-            PreparedStatement st = connection.prepareStatement("SELECT * FROM media WHERE title=? ORDER BY release_date DESC");
-            st.setString(1, title);
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM media WHERE title LIKE '%" + title + "%' ORDER BY release_date DESC");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 medias.add(mapToMedia(rs));
@@ -78,7 +133,8 @@ public class MediaDao {
                 rs.getString(5), // status
                 DATE_FORMAT.parse(rs.getString(6)), // release_date
                 rs.getString(7), // summary
-                rs.getString(8) // trailer_url
+                rs.getString(8), // trailer_url
+                rs.getInt(9) // timeMinute
         );
     }
 }

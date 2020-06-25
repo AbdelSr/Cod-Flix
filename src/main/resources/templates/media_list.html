@@ -14,19 +14,92 @@
     </div>
 </div>
 
+<div class="filtreBar">
+    <nav>
+        <ul>
+            <form action="/medias/" method="get">
+                <div>
+                    <button type="submit" class="genreButton">Tous les films & séries</button>
+                </div>
+            </form>
+            <li class="deroulant">
+                <form>
+                    <div>
+                        <div class="genreButton">Genre</div>
+                    </div>
+                </form>
+                <ul class="sous">
+                    #foreach($g in $genre.getAllGenres())
+                    <form action="/medias/" method="get">
+                        <div>
+                            <button type="submit" name="$g.getName()" class="genreButton">$g.getName()</button>
+                        </div>
+                    </form>
+                    #end
+                </ul>
+            </li>
+            <li class="deroulant">
+                <form action="/medias/" method="get">
+                    <div>
+                        <button type="submit" name="films" class="genreButton">Films</button>
+                    </div>
+                </form>
+                <ul class="sous">
+                    #foreach($g in $genre.getAllGenres())
+                    <form action="/medias/" method="get">
+                        <div>
+                            <button type="submit" name="films-$g.getName()" class="genreButton">$g.getName()</button>
+                        </div>
+                    </form>
+                    #end
+                </ul>
+            </li>
+            <li class="deroulant">
+                <form action="/medias/" method="get">
+                    <div>
+                        <button type="submit" name="series" class="genreButton">Séries</button>
+                    </div>
+                </form>
+                <ul class="sous">
+                    #foreach($g in $genre.getAllGenres())
+                    <form action="/medias/" method="get">
+                        <div>
+                            <button type="submit" name="series-$g.getName()" class="genreButton">$g.getName()</button>
+                        </div>
+                    </form>
+                    #end
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 <div class="media-list">
     #foreach($media in $medias)
-        <a class="item" href="/medias/$media.getId()">
-            <div class="video">
-                <div>
-                    <iframe allowfullscreen="" frameborder="0"
-                            src="$media.getTrailerUrl()" ></iframe>
-                </div>
+    <a class="item" href="/medias/$media.getId()">
+        <div class="video">
+            <div>
+                <iframe allowfullscreen="" frameborder="0"
+                        src="$media.getTrailerUrl()"></iframe>
             </div>
-            <div class="title">
-                $media.getTitle()
+        </div>
+        <div class="title">
+            $media.getTitle()
+        </div>
+        <div class="releasedDate">
+            $media.getReleaseYear()
+        </div>
+        <div class="timeAndType">
+            <div class="type">
+                $media.getType()
             </div>
-        </a>
+            #if ($media.isTimeMinuteNotNull())
+            <div class="timeMinute">
+                $media.getStringTimeMinute()
+            </div>
+            #end
+        </div>
+    </a>
     #end
 </div>
 #end

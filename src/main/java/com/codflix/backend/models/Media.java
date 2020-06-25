@@ -14,11 +14,12 @@ public class Media {
     private Date releaseDate;
     private String summary;
     private String trailerUrl;
+    private int timeMinute;
 
     private GenreDao gd = new GenreDao();
     private EpisodeDao ed = new EpisodeDao();
 
-    public Media(int id, int genreId, String title, String type, String status, Date releaseDate, String summary, String trailerUrl) {
+    public Media(int id, int genreId, String title, String type, String status, Date releaseDate, String summary, String trailerUrl, int timeMinute) {
         this.id = id;
         this.genreId = genreId;
         this.title = title;
@@ -27,6 +28,7 @@ public class Media {
         this.releaseDate = releaseDate;
         this.summary = summary;
         this.trailerUrl = trailerUrl;
+        this.timeMinute = timeMinute;
     }
 
     @Override
@@ -40,6 +42,7 @@ public class Media {
                 ", releaseDate=" + releaseDate +
                 ", summary='" + summary + '\'' +
                 ", trailerUrl='" + trailerUrl + '\'' +
+                ", timeMinute='" + timeMinute + '\'' +
                 '}';
     }
 
@@ -125,6 +128,38 @@ public class Media {
         this.trailerUrl = trailerUrl;
     }
 
+    public int getTimeMinute() {
+        return timeMinute;
+    }
+
+    public boolean isTimeMinuteNotNull() {
+        if (this.timeMinute == 0)
+            return false;
+
+        return true;
+    }
+
+    public String getStringTimeMinute() {
+        int hours = ((int) this.timeMinute / 60);
+        int minutes = this.timeMinute - (hours * 60);
+
+        if (hours == 0) {
+            if (minutes < 10)
+                return "0" + minutes + "mn";
+
+            return "0" + minutes + "mn";
+        }
+
+        if (minutes < 10)
+            return hours + "h" + "0" + minutes;
+
+        return hours + "h" + minutes;
+    }
+
+    public void setTimeMinute(int timeMinute) {
+        this.timeMinute = timeMinute;
+    }
+
     // Return the list of all episodes if it's a serie ordered by seasons
     public LinkedHashMap<Integer, ArrayList<Episode>> getEpisodes() {
 
@@ -132,7 +167,7 @@ public class Media {
         ArrayList<Episode> episodes = this.ed.getEpisodeByMediaId(this.id);
 
         for (Episode episode : episodes) {
-            if(lhm.get(episode.getSeason()) == null) {
+            if (lhm.get(episode.getSeason()) == null) {
                 ArrayList<Episode> newListeEpisodes = new ArrayList<Episode>();
                 newListeEpisodes.add(episode);
                 lhm.put(episode.getSeason(), newListeEpisodes);
@@ -166,6 +201,16 @@ public class Media {
 
         int hours = ((int) duration / 60);
         int minutes = duration - (hours * 60);
+
+        if (hours == 0) {
+            if (minutes < 10)
+                return "0" + minutes + "mn";
+
+            return "0" + minutes + "mn";
+        }
+
+        if (minutes < 10)
+            return hours + "h" + "0" + minutes;
 
         return hours + "h" + minutes;
     }
