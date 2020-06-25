@@ -4,6 +4,7 @@ import com.codflix.backend.core.Conf;
 import com.codflix.backend.core.Template;
 import com.codflix.backend.models.User;
 import com.codflix.backend.utils.URLUtils;
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
@@ -50,8 +51,48 @@ public class AuthController {
     }
 
     public String signUp(Request request, Response response) {
-        Map<String, Object> model = new HashMap<>();
-        return Template.render("auth_signup.html", model);
+        if (!request.requestMethod().equals("POST")) {
+            System.out.println("NOT POST METHOD");
+            Map<String, Object> model = new HashMap<>();
+            return Template.render("auth_signup.html", model);
+        }
+        System.out.println("POST METHOD");
+
+        // Get parameters
+        Map<String, String> query = URLUtils.decodeQuery(request.body());
+        String email = query.get("email");
+        String password = query.get("password");
+        String password_confirm = query.get("password_confirm");
+
+        System.out.println("########## email :" + email);
+        System.out.println("########## password :" + password);
+        System.out.println("########## password confirmed:" + password_confirm);
+
+        // if the password and the password_confirm aren't identical we return an error message
+        if (!password.equals(password_confirm))
+            return "Error password : not the same";
+
+        // if the mail is already used we return an error message
+        if (this.userDao.emailAlreadyUsed(email))
+            return "Email already used";
+
+        if (!this.userDao.createUserByCredentials(email, password))
+            return "Error";
+
+        User user = userDao.getUserByCredentials(email, password);
+
+        if (user != null) {
+            // Create session
+            Session session = request.session(true);
+            session.attribute("user_id", user.getId());
+            response.cookie("/", "user_id", "" + user.getId(), 3600, true);
+
+            // Redirect to medias page
+            response.redirect(Conf.ROUTE_LOGGED_ROOT);
+            return "OK";
+        }
+
+        return "Not OK";
     }
 
     public String logout(Request request, Response response) {
@@ -64,5 +105,10 @@ public class AuthController {
         response.redirect("/");
 
         return "";
+    }
+
+    public Object contact(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        return Template.render("contact.html", model);
     }
 }

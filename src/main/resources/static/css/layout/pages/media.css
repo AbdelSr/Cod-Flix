@@ -149,7 +149,6 @@
 }
 
 .episode-list {
-    display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -170,9 +169,51 @@
 .infosEpisode {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: -20px;
+    margin-bottom: -30px;
     justify-content: space-between;
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.displayInLine {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.episodeSummary {
+    font-size: 12px;
+    text-align: center;
+    color: white;
+    opacity: 70%;
+    margin-bottom: 10px;
+}
+
+.episodeSummary:hover {
+    opacity: 100%;
+}
+
+.seasonNumber {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.marginTop20 {
+    margin-top: 20px;
+}
+
+.marginTop10 {
+    margin-top: 10px;
+}
+
+.color-white {
+    color: white;
 }

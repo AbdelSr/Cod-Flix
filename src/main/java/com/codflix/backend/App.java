@@ -3,6 +3,8 @@ package com.codflix.backend;
 import com.codflix.backend.core.Conf;
 import com.codflix.backend.core.Database;
 import com.codflix.backend.core.Template;
+import com.codflix.backend.features.contact.ContactController;
+import com.codflix.backend.features.episode.EpisodeController;
 import com.codflix.backend.features.genre.GenreController;
 import com.codflix.backend.features.history.HistoryController;
 import com.codflix.backend.features.media.MediaController;
@@ -32,6 +34,8 @@ public class App {
         GenreController genre = new GenreController();
         MediaController media = new MediaController();
         HistoryController history = new HistoryController();
+        ContactController contact = new ContactController();
+        EpisodeController episode = new EpisodeController();
 
         // Routes
         // Every request should be mapped here to a controller method
@@ -39,11 +43,15 @@ public class App {
         Spark.get("/login", (req, res) -> auth.login(req, res));
         Spark.post("login", (req, res) -> auth.login(req, res));
         Spark.get("/signup", (req, res) -> auth.signUp(req, res));
+        Spark.post("signup", (req, res) -> auth.signUp(req, res));
         Spark.get("logout", (req, res) -> auth.logout(req, res));
         Spark.get("/genres/", (req, res) -> genre.list(req, res));
         Spark.get("/medias/:id", (req, res) -> media.detail(req, res));
         Spark.get("/medias/", (req, res) -> media.list(req, res));
         Spark.get("/histories/", (req, res) -> history.list(req, res));
+        Spark.get("/contact", (req, res) -> auth.contact(req, res));
+        Spark.get("/contact", (req, res) -> contact.contact(req, res));
+        Spark.get("/episode/:id", (req, res) -> episode.detail(req, res));
 
         Spark.get("/", (req, res) -> home.home(req, res));
     }

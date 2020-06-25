@@ -43,7 +43,6 @@ public class EpisodeDao {
 
             while (rs.next()) {
                 episode = mapToEpisode(rs);
-                System.out.println("+1 episode : " + episode);
                 episodes.add(episode);
             }
         } catch (SQLException | ParseException e) {
@@ -51,6 +50,86 @@ public class EpisodeDao {
         }
 
         return episodes;
+    }
+
+    // Return the next episode of the serie
+    public Episode getNextEpisode(Episode myEpisode) {
+        Episode episode = null;
+
+        if (myEpisode != null) {
+
+            int media_id = myEpisode.getMediaId();
+            int season = myEpisode.getSeason();
+            int numEpisode = myEpisode.getEpisodeNumber() + 1;
+
+            Connection connection = Database.get().getConnection();
+
+            ResultSet rs = null;
+            String requete = "SELECT * FROM episode WHERE media_id=" + media_id + " AND season=" + season + " AND num_episode=" + numEpisode;
+
+            try {
+                Statement stmt = connection.createStatement();
+                rs = stmt.executeQuery(requete);
+
+                if (rs.next()) {
+                    episode = mapToEpisode(rs);
+
+                } else {
+                    requete = "SELECT * FROM episode WHERE media_id=" + media_id + " AND season>" + season + " ORDER BY season ASC, num_episode ASC LIMIT 1";
+
+                    stmt = connection.createStatement();
+                    rs = stmt.executeQuery(requete);
+
+                    if (rs.next()) {
+                        episode = mapToEpisode(rs);
+                    }
+                }
+            } catch (SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return episode;
+    }
+
+    // Return the previous episode of the serie
+    public Episode getPreviousEpisode(Episode myEpisode) {
+        Episode episode = null;
+
+        if (myEpisode != null) {
+
+            int media_id = myEpisode.getMediaId();
+            int season = myEpisode.getSeason();
+            int numEpisode = myEpisode.getEpisodeNumber() - 1;
+
+            Connection connection = Database.get().getConnection();
+
+            ResultSet rs = null;
+            String requete = "SELECT * FROM episode WHERE media_id=" + media_id + " AND season=" + season + " AND num_episode=" + numEpisode;
+
+            try {
+                Statement stmt = connection.createStatement();
+                rs = stmt.executeQuery(requete);
+
+                if (rs.next()) {
+                    episode = mapToEpisode(rs);
+
+                } else {
+                    requete = "SELECT * FROM episode WHERE media_id=" + media_id + " AND season<" + season + " ORDER BY season DESC, num_episode DESC LIMIT 1";
+
+                    stmt = connection.createStatement();
+                    rs = stmt.executeQuery(requete);
+
+                    if (rs.next()) {
+                        episode = mapToEpisode(rs);
+                    }
+                }
+            } catch (SQLException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return episode;
     }
 
     public Episode getEpisodeById(int id) {

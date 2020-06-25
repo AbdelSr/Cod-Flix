@@ -16,11 +16,14 @@
     <h2 class="movieTitle case">
         $media.getTitle()
     </h2>
-    <div class="fullWidth">
-        <div class="informations case">$media.getReleaseYear() &nbsp | &nbsp $media.getType() &nbsp |
-            &nbsp
-            $media.getGenre()
-        </div>
+    <div class="fullWidth displayInLine">
+        <text class="informations case">$media.getReleaseYear() &nbsp | &nbsp $media.getType() &nbsp |
+            &nbsp $media.getGenre()
+
+            #if($media.isSerie())
+            &nbsp | &nbsp Durée totale : $media.getAllEpisodesDurationHours()
+            #end
+        </text>
     </div>
     <div class="fullWidth">
         <h2 class="case synopsis">Synopsis : </h2>
@@ -29,15 +32,14 @@
         $media.getSummary()
     </div>
 
-    <h2 class="episode-list">
+    <div class="episode-list">
         #foreach($season in $media.getEpisodes())
-
         <h2 class="case season">
             Saison $season[0].getSeason()
         </h2>
         <div class="media-list fullWidth">
             #foreach($episode in $season)
-            <a class="item" href="/medias/$episode.getId()">
+            <a class="item" href="/episode/$episode.getId()">
                 <div class="video">
                     <div>
                         <iframe
@@ -47,6 +49,11 @@
                 </div>
                 <div class="title">
                     $episode.getTitle()
+                </div>
+                <div class="infosEpisode">
+                    <text class="episodeSummary">
+                        $episode.getSummary()
+                    </text>
                 </div>
                 <div class="infosEpisode">
                     <div class="durationTime">
@@ -60,6 +67,6 @@
             #end
         </div>
         #end
-</div>
+    </div>
 </div>
 #end

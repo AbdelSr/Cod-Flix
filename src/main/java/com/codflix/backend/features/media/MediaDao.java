@@ -32,6 +32,8 @@ public class MediaDao {
     public List<Media> filterMedias(String title) {
         List<Media> medias = new ArrayList<>();
 
+        System.out.println("Recherche by title : " + title);
+        
         Connection connection = Database.get().getConnection();
         try {
             PreparedStatement st = connection.prepareStatement("SELECT * FROM media WHERE title=? ORDER BY release_date DESC");

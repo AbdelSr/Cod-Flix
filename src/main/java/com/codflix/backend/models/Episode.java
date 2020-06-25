@@ -1,5 +1,8 @@
 package com.codflix.backend.models;
 
+import com.codflix.backend.features.episode.EpisodeDao;
+import com.codflix.backend.features.media.MediaDao;
+
 public class Episode {
     private int id;
     private int mediaId;
@@ -9,6 +12,9 @@ public class Episode {
     private int timeMinute;
     private String summary;
     private String trailerUrl;
+
+    private MediaDao md = new MediaDao();
+    private EpisodeDao ed = new EpisodeDao();
 
     public Episode(int id, int mediaId, String title, int season, int episodeNumber, int timeMinute, String summary, String trailerUrl) {
         this.id = id;
@@ -97,5 +103,41 @@ public class Episode {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
+    }
+
+    // This function return the title of the serie to which it belongs
+    public String getMediaTitle() {
+        Media media = this.md.getMediaById(this.mediaId);
+
+        if (media != null)
+            return media.getTitle();
+
+        return "";
+    }
+
+    // Return true if there is a next episode
+    public boolean nextEpisodeExist() {
+        if (this.getNextEpisode() != null)
+            return true;
+
+        return false;
+    }
+
+    // Return true if there is a previous episode
+    public boolean previousEpisodeExist() {
+        if (this.getPreviousEpisode() != null)
+            return true;
+
+        return false;
+    }
+
+    // Return the next episode of the serie
+    public Episode getNextEpisode() {
+        return this.ed.getNextEpisode(this);
+    }
+
+    // Return the previous episode of the serie
+    public Episode getPreviousEpisode() {
+        return this.ed.getPreviousEpisode(this);
     }
 }

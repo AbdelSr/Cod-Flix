@@ -125,9 +125,10 @@ public class Media {
         this.trailerUrl = trailerUrl;
     }
 
+    // Return the list of all episodes if it's a serie ordered by seasons
     public LinkedHashMap<Integer, ArrayList<Episode>> getEpisodes() {
-        LinkedHashMap<Integer, ArrayList<Episode>> lhm = new LinkedHashMap<Integer, ArrayList<Episode>>();
 
+        LinkedHashMap<Integer, ArrayList<Episode>> lhm = new LinkedHashMap<Integer, ArrayList<Episode>>();
         ArrayList<Episode> episodes = this.ed.getEpisodeByMediaId(this.id);
 
         for (Episode episode : episodes) {
@@ -142,11 +143,31 @@ public class Media {
             }
         }
 
-        for (Map.Entry<Integer, ArrayList<Episode>> entry : lhm.entrySet()) {
-            System.out.println("saison : " + entry.getKey() + " : " + entry.getValue());
+        return lhm;
+    }
+
+    public boolean isSerie() {
+        if (this.type.equals("serie"))
+            return true;
+
+        return false;
+    }
+
+    // Return the duration of all episodes from all seasons combined
+    public String getAllEpisodesDurationHours() {
+
+        ArrayList<Episode> episodes = this.ed.getEpisodeByMediaId(this.id);
+        int duration = 0;
+
+        for (Episode episode : episodes) {
+            if (episode != null)
+                duration += episode.getTimeMinute();
         }
 
-        return lhm;
+        int hours = ((int) duration / 60);
+        int minutes = duration - (hours * 60);
+
+        return hours + "h" + minutes;
     }
 }
 

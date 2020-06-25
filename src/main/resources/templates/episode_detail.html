@@ -1,0 +1,121 @@
+#parse("dashboard.html")
+#@mainLayout()
+
+<div class="all">
+
+    <div class="case fullWidth">
+        <a class="btn bg-red" href="/medias/$episode.getMediaId()">
+            <text class="color-white">Retour vers $episode.getMediaTitle()</text>
+        </a>
+    </div>
+
+    <div class="titleDiv case fullWidth">
+        <h1 class="detailTitle">
+            A propos
+        </h1>
+    </div>
+    <div class="videoYt case">
+        <iframe class="iframe-x2" allowfullscreen="" frameborder="0"
+                src="$episode.getTrailerUrl()">
+        </iframe>
+    </div>
+    <h2 class="movieTitle case">
+        $episode.getTitle()
+    </h2>
+    <div class="fullWidth displayInLine">
+        <text class="informations case">
+            $episode.getMediaTitle() &nbsp | &nbsp Saison $episode.getSeason() Episode $episode.getEpisodeNumber() &nbsp
+            | &nbsp $episode.getTimeMinute()mn
+        </text>
+    </div>
+    <div class="fullWidth">
+        <h2 class="case synopsis">Synopsis : </h2>
+    </div>
+    <div class="case fullWidth summary">
+        $episode.getSummary()
+    </div>
+
+    <div class="fullWidth marginTop10">
+        <h2 class="case season">Episodes : </h2>
+    </div>
+
+    <div class="episode-list">
+        <div class="media-list fullWidth center marginTop20">
+
+            <!-- show the Previous episode if exist -->
+            #if($episode.previousEpisodeExist())
+
+            <a class="item" href="/episode/$episode.getPreviousEpisode().getId()">
+                <div class="title">
+                    Episode précèdent
+                </div>
+                <div class="video">
+                    <div>
+                        <iframe
+                                allowfullscreen="" frameborder="0" src="$episode.getPreviousEpisode().getTrailerUrl()">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="seasonNumber">
+                    Saison $episode.getPreviousEpisode().getSeason()
+                </div>
+                <div class="title">
+                    $episode.getPreviousEpisode().getTitle()
+                </div>
+                <div class="infosEpisode">
+                    <text class="episodeSummary">
+                        $episode.getPreviousEpisode().getSummary()
+                    </text>
+                </div>
+                <div class="infosEpisode">
+                    <div class="durationTime">
+                        $episode.getPreviousEpisode().getTimeMinute() mn
+                    </div>
+                    <div class="episodeNumber">
+                        $episode.getPreviousEpisode().getEpisodeNumber()
+                    </div>
+                </div>
+            </a>
+            #end
+
+            <!-- show the Next episode if exist -->
+            #if($episode.nextEpisodeExist())
+
+            <a class="item" href="/episode/$episode.getNextEpisode().getId()">
+                <div class="title">
+                    Episode suivant
+                </div>
+                <div class="video">
+                    <div>
+                        <iframe
+                                allowfullscreen="" frameborder="0" src="$episode.getNextEpisode().getTrailerUrl()">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="seasonNumber">
+                    Saison $episode.getNextEpisode().getSeason()
+                </div>
+                <div class="title">
+                    $episode.getNextEpisode().getTitle()
+                </div>
+                <div class="infosEpisode">
+                    <text class="episodeSummary">
+                        $episode.getNextEpisode().getSummary()
+                    </text>
+                </div>
+                <div class="infosEpisode">
+                    <div class="durationTime">
+                        $episode.getNextEpisode().getTimeMinute() mn
+                    </div>
+                    <div class="episodeNumber">
+                        $episode.getNextEpisode().getEpisodeNumber()
+                    </div>
+                </div>
+            </a>
+            #end
+
+        </div>
+    </div>
+
+</div>
+#end

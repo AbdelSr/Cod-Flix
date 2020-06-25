@@ -12,9 +12,11 @@ public class AuthMiddleware implements Middleware {
     public void process(Request request, Response response) {
         String path = request.pathInfo();
         // Handle routes with no auth first
+        // contact path added here
         if (path.equals("/") ||
                 path.equals("/login") ||
-                path.equals("/signup")) {
+                path.equals("/signup") ||
+                path.equals("/contact")) {
 
             return;
         }
