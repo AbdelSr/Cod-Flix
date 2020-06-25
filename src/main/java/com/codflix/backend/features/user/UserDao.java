@@ -58,6 +58,46 @@ public class UserDao {
         return user;
     }
 
+    // This function update a user mail
+    public boolean updateEmail(User user, String email) {
+        Connection connection = Database.get().getConnection();
+
+        try {
+            String requete = "UPDATE user SET email='" + email + "' WHERE id=" + user.getId();
+            Statement stmt = connection.createStatement();
+            int nbMaj = stmt.executeUpdate(requete);
+
+            if (nbMaj == 1)
+                return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // This function update a user password
+    public boolean updatePassword(User user, String newPassword) {
+        Connection connection = Database.get().getConnection();
+
+        String hashePassword = PasswordHash.hashPassword(newPassword);
+
+        try {
+            String requete = "UPDATE user SET password='" + hashePassword + "' WHERE id=" + user.getId();
+            Statement stmt = connection.createStatement();
+            int nbMaj = stmt.executeUpdate(requete);
+
+            if (nbMaj == 1)
+                return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     // This function create a user with mail and the hashed password
     public boolean createUserByCredentials(String email, String password) {
         Connection connection = Database.get().getConnection();
